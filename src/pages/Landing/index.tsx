@@ -1,11 +1,11 @@
 import React from "react";
-import { Greeter } from "@/components/examples";
+import { Publications } from "@/components/examples";
 
 export default function LandingPage() {
   return (
     <div>
       <div>landing page</div>
-      <Greeter />
+      <Publications />
     </div>
   );
 }

@@ -8,6 +8,9 @@ import { InjectedConnector } from "wagmi/connectors/injected";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { WalletLinkConnector } from "wagmi/connectors/walletLink";
 
+import { ApolloProvider } from "@apollo/client";
+import { apolloClient } from "@/lib/apollo-client";
+
 import "./index.css";
 import App from "./App";
 
@@ -66,16 +69,18 @@ const webSocketProvider = ({ chainId }: ConnectorsConfig) =>
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider
-      autoConnect
-      connectors={connectors}
-      provider={provider}
-      webSocketProvider={webSocketProvider}
-    >
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </Provider>
+    <ApolloProvider client={apolloClient}>
+      <Provider
+        autoConnect
+        connectors={connectors}
+        provider={provider}
+        webSocketProvider={webSocketProvider}
+      >
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </Provider>
+    </ApolloProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
