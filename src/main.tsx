@@ -69,7 +69,7 @@ const webSocketProvider = ({ chainId }: ConnectorsConfig) =>
 
 ReactDOM.render(
   <React.StrictMode>
-    <ApolloProvider client={apolloClient}>
+    <ApolloProvider client={apolloClient()}>
       <Provider
         autoConnect
         connectors={connectors}

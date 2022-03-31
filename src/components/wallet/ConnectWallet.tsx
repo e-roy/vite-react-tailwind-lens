@@ -1,14 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Button } from "../elements";
 import { useConnect, useAccount } from "wagmi";
+import { Auth } from "./Auth";
 
 import metamaskLogo from "@/images/metamask-logo.png";
 import walletConnectLogo from "@/images/walletconnect-logo.png";
 
+import {
+  getAuthenticationToken,
+  removeAuthenticationToken,
+} from "@/lib/auth/state";
+import { useQuery } from "@apollo/client";
+import { VERIFY } from "@/queries/auth/verify";
+
 export const ConnectWallet = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isWalletConnected, setIsWalletConnected] = useState(false);
-  const [isProcessing, setIsProcessing] = useState(false);
+  // const [isVerified, setIsVerified] = useState(false);
   const [
     {
       data: { connector, connectors },
@@ -19,6 +27,14 @@ export const ConnectWallet = () => {
 
   const [{ data: accountData }, disconnect] = useAccount();
 
+  const { data: verifyData, loading: verifyLoading } = useQuery(VERIFY, {
+    variables: {
+      request: { accessToken: getAuthenticationToken() },
+    },
+  });
+  let isVerified = false;
+  if (verifyData?.verify) isVerified = true;
+
   useEffect(() => {
     if (accountData) {
       setIsWalletConnected(true);
@@ -28,51 +44,33 @@ export const ConnectWallet = () => {
   const handleLogout = async () => {
     if (accountData?.address) {
       disconnect();
+      await removeAuthenticationToken();
       setIsWalletConnected(false);
     }
-  };
-
-  const handleConnectWallet = async (x: any) => {
-    setIsProcessing(true);
-
-    try {
-      await connect(x);
-      setIsProcessing(false);
-      setIsModalOpen(false);
-    } catch (e) {
-      console.log(e);
-      setIsProcessing(false);
-      setIsModalOpen(false);
-    }
-  };
-
-  const handleConnectButton = async () => {
-    setIsProcessing(true);
-    setIsModalOpen(true);
   };
 
   if (loading) return <div className="h-12"></div>;
 
   return (
     <div>
-      {isProcessing ? (
-        <Button disabled>Processing...</Button>
+      {!isWalletConnected ? (
+        <Button onClick={() => setIsModalOpen(true)}>Connect Wallet</Button>
       ) : (
         <>
-          {!isWalletConnected ? (
-            <Button onClick={() => handleConnectButton()}>
-              Connect Wallet
-            </Button>
+          {!isVerified ? (
+            <Auth />
           ) : (
-            <Button onClick={() => handleLogout()}>Logout</Button>
+            <>
+              <Button onClick={() => handleLogout()}>Logout</Button>
+            </>
           )}
         </>
       )}
+
       {isModalOpen && (
         <Modal
           isOpen={isModalOpen}
           onClose={() => {
-            setIsProcessing(false);
             setIsModalOpen(false);
           }}
         >
@@ -82,7 +80,10 @@ export const ConnectWallet = () => {
                 className={"hover:bg-gray-100 text-gray-700 p-4 w-full rounded"}
                 disabled={!x.ready}
                 key={x.name}
-                onClick={() => handleConnectWallet(x)}
+                onClick={() => {
+                  connect(x);
+                  setIsModalOpen(false);
+                }}
               >
                 <div>
                   {x.name === "MetaMask" && (
