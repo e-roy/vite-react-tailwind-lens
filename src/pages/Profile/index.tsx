@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useAccount } from "wagmi";
 
 import { useQuery } from "@apollo/client";
 import { GET_PROFILES } from "@/queries/profile/get-profiles";
+
+import {
+  FollowButton,
+  UnfollowButton,
+  DoesFollow,
+} from "@/components/examples";
 
 import { Avatar } from "@/components/elements/Avatar";
 
@@ -24,7 +31,6 @@ export const ProfilePage = () => {
   if (error) return <div>Error!</div>;
 
   const profile = profileData.profiles.items[0];
-  // console.log("profile", profile);
 
   if (!profile) return <div>No profile found for this handle</div>;
   return (
@@ -51,10 +57,9 @@ export const ProfilePage = () => {
               </span>
               <p className="text-sm text-gray-200">{profile.bio}</p>
               <div className="py-2 flex space-x-2">
-                <button className="flex justify-center  max-h-max whitespace-nowrap focus:outline-none  focus:ring  focus:border-blue-300 rounded max-w-max border bg-transparent border-purple-400 text-purple-400 hover:border-purple-800 hover:text-purple-500 px-4 py-1  items-center hover:shadow-lg">
-                  <span className="mr-2"></span>FOLLOW
-                  <span className="ml-2"></span>
-                </button>
+                <DoesFollow profileId={profile.id} />
+                {/* <FollowButton profileId={profile.id} />
+                <UnfollowButton profileId={profile.id} /> */}
               </div>
               <div className="py-4 flex justify-center items-center w-full divide-x divide-gray-400 divide-solid">
                 <span className="text-center px-2">
