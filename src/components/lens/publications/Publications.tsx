@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { EXPLORE_PUBLICATIONS } from "@/queries/explore-publications";
 
-import { Avatar } from "../elements/Avatar";
+import { Avatar } from "@/components/elements/Avatar";
 
 export const Publications = () => {
   let navigate = useNavigate();

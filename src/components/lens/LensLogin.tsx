@@ -4,15 +4,11 @@ import { generateChallenge, authenticate } from "@/lib/apollo/auth/login";
 import { setAuthenticationToken } from "@/lib/apollo/auth/state";
 import { Button } from "@/components/elements";
 
-type AuthProps = {};
-
 export const LensLogin = () => {
   const { data: accountData } = useAccount();
   const { signMessageAsync } = useSignMessage();
 
   const handleLogin = async () => {
-    console.log("login component");
-
     const challenge = await generateChallenge(accountData?.address as string);
     if (!challenge) return;
     const signature = await signMessageAsync({

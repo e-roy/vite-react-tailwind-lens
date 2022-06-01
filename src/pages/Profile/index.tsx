@@ -4,8 +4,7 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { GET_PROFILES } from "@/queries/profile/get-profiles";
 
-import { DoesFollow } from "@/components/examples";
-
+import { DoesFollow } from "@/components/lens/profile";
 import { Avatar } from "@/components/elements/Avatar";
 
 export const ProfilePage = () => {

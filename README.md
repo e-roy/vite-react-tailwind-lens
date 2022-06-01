@@ -1,4 +1,4 @@
-# Lens Protocol Front End Starter
+# Lens Protocol Front End Starter - Template
 
 ### With Vite + ReactJs + TailwindCss3 + WAGMI
 

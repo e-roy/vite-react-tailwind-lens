@@ -1,15 +1,9 @@
 import React from "react";
-import {
-  Publications,
-  CreateProfile,
-  GetProfiles,
-} from "@/components/examples";
+import { Publications } from "@/components/lens/publications";
 
 export const LandingPage = () => {
   return (
     <div>
-      {/* <CreateProfile /> */}
-      {/* <GetProfiles /> */}
       <Publications />
     </div>
   );
