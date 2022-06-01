@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { useQuery, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { CREATE_POST_TYPED_DATA } from "@/queries/post/create-post";
-import { GET_PROFILES } from "@/queries/profile/get-profiles";
 
 import { useSignTypedData, useContractWrite, useAccount } from "wagmi";
 import { omit, splitSignature } from "@/lib/apollo/helpers";
@@ -11,18 +10,13 @@ import { LENS_HUB_PROXY_ADDRESS } from "@/constants";
 import { uploadIpfs } from "@/lib/ipfs/index";
 import { Avatar } from "@/components/elements/Avatar";
 
-export const CreatePost = () => {
+interface CreatePostProps {
+  currentUser: any;
+}
+
+export const CreatePost = ({ currentUser }: CreatePostProps) => {
   const [content, setContent] = useState("");
   const [isPosting, setIsPosting] = useState(false);
-  const { data: accountData } = useAccount();
-  const { data: profileData } = useQuery(GET_PROFILES, {
-    variables: {
-      request: { ownedBy: [accountData?.address] },
-    },
-  });
-
-  const currentUser = profileData.profiles.items[0];
-
   const { signTypedDataAsync } = useSignTypedData();
   const { writeAsync } = useContractWrite(
     {

@@ -10,9 +10,11 @@ Example hosted with [fleek.co](https://fleek.co/) at [https://jolly-snow-9071.on
 
 2. [explorePublications](https://docs.lens.xyz/docs/explore-publications) - returns a list of publications based on your request query
 
-3. [follow](https://docs.lens.xyz/docs/functions#follow) - Follow a user
+3. [createPost](https://docs.lens.xyz/docs/create-post-typed-data) - Create a post (text content only, yours to extend)
 
-4. [burn](https://docs.lens.xyz/docs/functions#burn) - Unfollows a user
+4. [follow](https://docs.lens.xyz/docs/functions#follow) - Follow a user
+
+5. [burn](https://docs.lens.xyz/docs/functions#burn) - Unfollows a user
 
 You can view all of the APIs [here](https://docs.lens.xyz/docs/introduction) and contract methods [here](https://docs.lens.xyz/docs/functions)
 
