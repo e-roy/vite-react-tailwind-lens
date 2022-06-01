@@ -16,17 +16,17 @@ import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { ApolloProvider } from "@apollo/client";
 import { apolloClient } from "@/lib/apollo";
 
-import { ENV_PROD, ENV_DEV } from "@/constants";
+import { ENV_PROD, ENV_DEV, IS_PRODUCTION } from "@/constants";
 
 const alchemyId = import.meta.env.VITE_PROD_ALCHEMY_ID as string;
 const infuraId = import.meta.env.VITE_PROD_INFURA_ID as string;
 
 const networks = [];
-if (ENV_PROD) {
+if (ENV_PROD && IS_PRODUCTION) {
   networks.push(chain.polygon);
 }
 
-if (ENV_DEV) {
+if (ENV_DEV && !IS_PRODUCTION) {
   networks.push(chain.polygonMumbai);
 }
 
