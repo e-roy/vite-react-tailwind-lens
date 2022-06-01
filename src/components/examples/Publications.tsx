@@ -27,8 +27,6 @@ export const Publications = () => {
         <>
           {data.explorePublications.items.map((item: any, index: number) => (
             <div key={index} className="m-2 p-2 border rounded">
-              <div className="text-xs italic">id: {item.id}</div>
-
               <div className="font-semibold">Name : {item.metadata.name}</div>
               <div>Content : {item.metadata.content}</div>
               <div>Description : {item.metadata.description}</div>
@@ -37,13 +35,9 @@ export const Publications = () => {
                 <div className="font-semibold">
                   Username : {item.profile.handle}
                 </div>
-                <div>Collects : {item.profile.stats.totalCollects}</div>
-                <div>Comments : {item.profile.stats.totalComments}</div>
-                <div>Followers : {item.profile.stats.totalFollowers}</div>
-                <div>Following : {item.profile.stats.totalFollowing}</div>
-                <div>Mirrors : {item.profile.stats.totalMirrors}</div>
-                <div>Posts : {item.profile.stats.totalPosts}</div>
-                <div>Publications : {item.profile.stats.totalPublications}</div>
+                <div>Collects : {item.stats.totalAmountOfCollects}</div>
+                <div>Comments : {item.stats.totalAmountOfComments}</div>
+                <div>Mirrors : {item.stats.totalAmountOfMirrors}</div>
               </div>
             </div>
           ))}

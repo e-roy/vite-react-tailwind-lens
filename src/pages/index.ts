@@ -1,1 +1,2 @@
-export { default as LandingPage } from "./Landing";
+export { LandingPage } from "./Landing";
+export { UserPage } from "./User";

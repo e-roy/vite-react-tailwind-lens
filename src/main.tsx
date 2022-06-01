@@ -1,86 +1,62 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import { BrowserRouter } from "react-router-dom";
-
-import { providers } from "ethers";
-import { Connector, Provider, chain, defaultChains } from "wagmi";
-import { InjectedConnector } from "wagmi/connectors/injected";
-import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
-import { WalletLinkConnector } from "wagmi/connectors/walletLink";
-
-import { ApolloProvider } from "@apollo/client";
-import { apolloClient } from "@/lib/apollo-client";
-
+import { HashRouter } from "react-router-dom";
+import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App";
 
-const chains = [...defaultChains];
-const defaultChain = chain.mainnet;
+// Imports
+import { chain, createClient, WagmiConfig, configureChains } from "wagmi";
+import { alchemyProvider } from "wagmi/providers/alchemy";
+import { publicProvider } from "wagmi/providers/public";
+
+import "@rainbow-me/rainbowkit/styles.css";
+
+import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
+
+import { ApolloProvider } from "@apollo/client";
+import { apolloClient } from "@/lib/apollo";
+
+import { ENV_PROD, ENV_DEV } from "@/constants";
 
 const alchemyId = import.meta.env.VITE_ALCHEMY_ID as string;
-const infuraId = import.meta.env.VITE_INFURA_ID as string;
 
-// Set up connectors
-type ConnectorsConfig = { chainId?: number };
-const connectors = ({ chainId }: ConnectorsConfig) => {
-  // const rpcUrl = chains.find((x) => x.id === chainId)?.rpcUrls?.[0] ?? defaultChain.rpcUrls[0];
-  return [
-    // MetaMask
-    new InjectedConnector({ chains, options: { shimDisconnect: true } }),
+const networks = [];
+if (ENV_PROD) {
+  networks.push(chain.polygon);
+}
 
-    // WalletConnect
-    // new WalletConnectConnector({
-    //   chains,
-    //   options: {
-    //     infuraId,
-    //     qrcode: true,
-    //   },
-    // }),
+if (ENV_DEV) {
+  networks.push(chain.polygonMumbai);
+}
 
-    // Coinbase Wallet
-    // new WalletLinkConnector({
-    //   chains,
-    //   options: {
-    //     appName: 'wagmi',
-    //     jsonRpcUrl: `${rpcUrl}/${infuraId}`,
-    //   },
-    // }),
-  ];
-};
+const { chains, provider } = configureChains(networks, [
+  alchemyProvider({ alchemyId }),
+  publicProvider(),
+]);
 
-// Set up providers
-type ProviderConfig = { chainId?: number; connector?: Connector };
-const isChainSupported = (chainId?: number) =>
-  chains.some((x) => x.id === chainId);
+const { connectors } = getDefaultWallets({
+  appName: "Vite App",
+  chains,
+});
 
-// Set up providers
-const provider = ({ chainId }: ProviderConfig) =>
-  providers.getDefaultProvider(
-    isChainSupported(chainId) ? chainId : defaultChain.id,
-    {
-      alchemy: alchemyId,
-      infura: infuraId,
-    }
-  );
-const webSocketProvider = ({ chainId }: ConnectorsConfig) =>
-  isChainSupported(chainId)
-    ? new providers.InfuraWebSocketProvider(chainId, infuraId)
-    : undefined;
+const wagmiClient = createClient({
+  autoConnect: true,
+  connectors,
+  provider,
+});
 
-ReactDOM.render(
+const container = document.getElementById("root");
+const root = createRoot(container!); // createRoot(container!) if you use TypeScript
+root.render(
   <React.StrictMode>
-    <ApolloProvider client={apolloClient()}>
-      <Provider
-        autoConnect
-        connectors={connectors}
-        provider={provider}
-        webSocketProvider={webSocketProvider}
-      >
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </Provider>
-    </ApolloProvider>
-  </React.StrictMode>,
-  document.getElementById("root")
+    <WagmiConfig client={wagmiClient}>
+      <RainbowKitProvider coolMode chains={chains}>
+        <ApolloProvider client={apolloClient()}>
+          <HashRouter>
+            <App />
+          </HashRouter>
+        </ApolloProvider>
+      </RainbowKitProvider>
+    </WagmiConfig>
+  </React.StrictMode>
 );

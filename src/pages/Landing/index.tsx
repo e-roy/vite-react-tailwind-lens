@@ -5,13 +5,13 @@ import {
   GetProfiles,
 } from "@/components/examples";
 
-export default function LandingPage() {
+export const LandingPage = () => {
   return (
     <div>
-      <div>landing page</div>
-      <CreateProfile />
-      <GetProfiles />
+      <div>landing page!</div>
+      {/* <CreateProfile /> */}
+      {/* <GetProfiles /> */}
       <Publications />
     </div>
   );
-}
+};
