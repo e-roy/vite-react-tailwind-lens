@@ -6,7 +6,11 @@ import { LensLogin } from "./components/wallet";
 
 import { LandingPage, ProfilePage } from "./pages";
 
-import { ENV_PROD, ENV_DEV } from "@/constants";
+import { ENV_PROD, ENV_DEV, IS_PRODUCTION } from "@/constants";
+
+console.log("is production", IS_PRODUCTION);
+console.log("ENV_PROD", ENV_PROD);
+console.log("ENV_DEV", ENV_DEV);
 
 function App() {
   return (
