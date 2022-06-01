@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useContext } from "react";
-import { Route, Routes, Outlet, Navigate } from "react-router-dom";
+import React from "react";
+import { Route, Routes, Outlet } from "react-router-dom";
 
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { LensLogin } from "./components/wallet";

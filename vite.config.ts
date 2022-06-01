@@ -15,7 +15,6 @@ export default defineConfig(({ command, mode }) => {
     // vite config
     define: {
       __APP_ENV__: env.APP_ENV,
-      global: "globalThis",
     },
     resolve: {
       alias: {
