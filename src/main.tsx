@@ -26,7 +26,7 @@ if (ENV_PROD && IS_PRODUCTION) {
   networks.push(chain.polygon);
 }
 
-if (ENV_DEV && !IS_PRODUCTION) {
+if (ENV_DEV || !IS_PRODUCTION) {
   networks.push(chain.polygonMumbai);
 }
 
