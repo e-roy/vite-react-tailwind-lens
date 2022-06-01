@@ -13,27 +13,11 @@ This project is built with the following open source libraries, frameworks and l
 | [React Router](https://reactrouter.com/docs/en/v6/getting-started/overview) | Client Side Routing |
 | [TailwindCss3](https://tailwindcss.com/) | CCS Framework |
 | [WAGMI](https://wagmi.sh/) | A set of React Hooks for Web3 |
-
----
-
-## Blockchains
-
-This project is built with the following open source libraries, frameworks and languages.
-| Chain | ID | Description |
-| --------------------------------------- | --------|------------------------------------------------------------- |
-| Mainnet[]() | 1 | Ethereum Mainnet
-| Ropsten[]() | 3 | Testnet
-| Rinkeby[]() | 4 | Testnet
-| Goerli[]() | 5 | Testnet
-| Kovan[]() | 42 | Testnet
-| Polygon[]() | 137 | Polygon Mainnet
-| Mumbai[]() | 80001 | Polygon Testnet
+| [RainbowKit](https://www.rainbowkit.com/docs/introduction) | RainbowKit is a React library that makes it easy to add wallet connection to your dapp. |
 
 ---
 
 ## Configure
-
-Open config.json file and change the network id to your network
 
 Create a .env file, by copying the .env-example file and include your alchemy and infura keys
 

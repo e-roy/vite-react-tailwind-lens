@@ -1,9 +1,13 @@
+// If ready for production, change boolean value to 'true'
+export const IS_PRODUCTION = false;
+
 // Environments
 export const ENV_PROD = process.env.NODE_ENV === "production";
 export const ENV_DEV = process.env.NODE_ENV === "development";
 
-export const CURRENT_CHAIN_ID: number = ENV_PROD ? 137 : 80001;
-export const CURRENT_CHAIN_NAME = ENV_PROD ? "Polygon" : "Polygon Mumbai";
+export const CURRENT_CHAIN_ID: number = ENV_PROD && IS_PRODUCTION ? 137 : 80001;
+export const CURRENT_CHAIN_NAME =
+  ENV_PROD && IS_PRODUCTION ? "Polygon" : "Polygon Mumbai";
 
 export const LENS_API_URL = ENV_PROD
   ? "https://api.lens.dev"

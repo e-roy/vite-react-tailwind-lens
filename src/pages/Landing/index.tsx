@@ -8,7 +8,6 @@ import {
 export const LandingPage = () => {
   return (
     <div>
-      <div>landing page!</div>
       {/* <CreateProfile /> */}
       {/* <GetProfiles /> */}
       <Publications />

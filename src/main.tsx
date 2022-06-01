@@ -18,7 +18,8 @@ import { apolloClient } from "@/lib/apollo";
 
 import { ENV_PROD, ENV_DEV } from "@/constants";
 
-const alchemyId = import.meta.env.VITE_ALCHEMY_ID as string;
+const alchemyId = import.meta.env.VITE_PROD_ALCHEMY_ID as string;
+const infuraId = import.meta.env.VITE_PROD_INFURA_ID as string;
 
 const networks = [];
 if (ENV_PROD) {
@@ -35,7 +36,7 @@ const { chains, provider } = configureChains(networks, [
 ]);
 
 const { connectors } = getDefaultWallets({
-  appName: "Vite App",
+  appName: "Lens Vite - Starter App",
   chains,
 });
 

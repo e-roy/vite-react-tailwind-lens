@@ -5,7 +5,7 @@ import { useAccount } from "wagmi";
 import { Button } from "@/components/elements";
 
 export const GetProfiles = () => {
-  const [{ data: accountData }] = useAccount();
+  const { data: accountData } = useAccount();
 
   const {
     data: userProfilesData,

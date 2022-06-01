@@ -4,7 +4,7 @@ import { Route, Routes, Outlet, Navigate } from "react-router-dom";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { LensLogin } from "./components/wallet";
 
-import { LandingPage, UserPage } from "./pages";
+import { LandingPage, ProfilePage } from "./pages";
 
 import { ENV_PROD, ENV_DEV } from "@/constants";
 
@@ -13,7 +13,7 @@ function App() {
     <Routes>
       <Route element={<AppLayout />}>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/user" element={<UserPage />} />
+        <Route path="/profile/:handle" element={<ProfilePage />} />
       </Route>
     </Routes>
   );
@@ -24,9 +24,9 @@ export default App;
 const AppLayout = () => {
   return (
     <div className="h-screen flex flex-col">
-      <header>
-        <ConnectButton />
+      <header className="flex justify-between p-4">
         <LensLogin />
+        <ConnectButton />
       </header>
       <main className="flex-grow overflow-y-auto">
         <Outlet />
