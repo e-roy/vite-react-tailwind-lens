@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { useSignTypedData, useSigner, useContractWrite } from "wagmi";
+import { useSignTypedData, useSigner } from "wagmi";
 import { omit, splitSignature } from "@/lib/apollo/helpers";
 import { ethers } from "ethers";
 

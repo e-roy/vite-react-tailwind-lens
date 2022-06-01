@@ -1,15 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
-import { useAccount } from "wagmi";
 
 import { useQuery } from "@apollo/client";
 import { GET_PROFILES } from "@/queries/profile/get-profiles";
 
-import {
-  FollowButton,
-  UnfollowButton,
-  DoesFollow,
-} from "@/components/examples";
+import { DoesFollow } from "@/components/examples";
 
 import { Avatar } from "@/components/elements/Avatar";
 
@@ -20,7 +15,6 @@ export const ProfilePage = () => {
     data: profileData,
     loading,
     error,
-    refetch,
   } = useQuery(GET_PROFILES, {
     variables: {
       request: { handles: [handle] },
@@ -58,8 +52,6 @@ export const ProfilePage = () => {
               <p className="text-sm text-gray-200">{profile.bio}</p>
               <div className="py-2 flex space-x-2">
                 <DoesFollow profileId={profile.id} />
-                {/* <FollowButton profileId={profile.id} />
-                <UnfollowButton profileId={profile.id} /> */}
               </div>
               <div className="py-4 flex justify-center items-center w-full divide-x divide-gray-400 divide-solid">
                 <span className="text-center px-2">
