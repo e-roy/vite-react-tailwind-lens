@@ -184,7 +184,7 @@ export const CreatePost = ({ currentUser }: CreatePostProps) => {
         <button
           onClick={() => handlePost()}
           disabled={!content}
-          className=" border border-indigo-500 p-1 px-4 font-semibold cursor-pointer text-gray-200 ml-2 bg-indigo-500 rounded"
+          className=" border border-green-700 p-1 px-4 font-semibold cursor-pointer text-gray-200 ml-2 bg-green-700 rounded"
         >
           Post
         </button>

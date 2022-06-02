@@ -18,7 +18,7 @@ export const Button: React.FC<ButtonProps> = ({
 
   return (
     <button
-      className="py-2 px-4 rounded-xl text-md font-bold bg-sky-800 text-white"
+      className="py-2 px-4 rounded-xl text-md font-bold bg-green-700 text-gray-100"
       type={type}
       onClick={onClick}
     >

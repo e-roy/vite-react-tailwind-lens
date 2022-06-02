@@ -2,19 +2,21 @@
 
 ### With Vite + ReactJs + TailwindCss3 + WAGMI
 
-This is an example of a basic build for a front-end application on top of [Lens Protocol](https://docs.lens.xyz/docs).
+This is an template example of a basic build for a front-end application on top of [Lens Protocol](https://docs.lens.xyz/docs).
 
-Example hosted with [fleek.co](https://fleek.co/) at [https://jolly-snow-9071.on.fleek.co/](https://jolly-snow-9071.on.fleek.co/)
+This template hosted with [fleek.co](https://fleek.co/) at [https://jolly-snow-9071.on.fleek.co/](https://jolly-snow-9071.on.fleek.co/)
 
 1. [getProfiles](https://docs.lens.xyz/docs/get-profiles) - get profiles by passing in a user's handle in the url `/users/handle`
 
 2. [explorePublications](https://docs.lens.xyz/docs/explore-publications) - returns a list of publications based on your request query
 
-3. [createPost](https://docs.lens.xyz/docs/create-post-typed-data) - Create a post (text content only, yours to extend)
+3. [createProfile](https://docs.lens.xyz/docs/create-profile) - Create a profile (only available on Mumbai testnet)
 
-4. [follow](https://docs.lens.xyz/docs/functions#follow) - Follow a user
+4. [createPost](https://docs.lens.xyz/docs/create-post-typed-data) - Create a post (text content only, yours to extend)
 
-5. [burn](https://docs.lens.xyz/docs/functions#burn) - Unfollows a user
+5. [follow](https://docs.lens.xyz/docs/functions#follow) - Follow a user
+
+6. [burn](https://docs.lens.xyz/docs/functions#burn) - Unfollows a user
 
 You can view all of the APIs [here](https://docs.lens.xyz/docs/introduction) and contract methods [here](https://docs.lens.xyz/docs/functions)
 
