@@ -17,6 +17,8 @@ export const PostPage = () => {
     },
   });
 
+  // console.log("profileData", profileData);
+
   if (!profileData) return null;
   const currentUser = profileData.profiles.items[0];
 

@@ -12,7 +12,9 @@ export const CreateProfile = () => {
     {
       onCompleted: () => {
         setSubmitError("");
-        setSubmitSuccess("Profile Created, please refresh page");
+        setSubmitSuccess(
+          "Profile Created, it may take a few minutes to be visible.  Please refresh the page in a few minutes."
+        );
       },
       onError: (error) => {
         console.log("create profile error", error);
@@ -41,7 +43,7 @@ export const CreateProfile = () => {
     await createProfile({
       variables: {
         request: {
-          handle: new Date().getTime().toString(),
+          handle: new Date().getTime().toString(), // this is a hack to get a unique handle, insert text instead to test availability
         },
       },
     });
@@ -51,7 +53,7 @@ export const CreateProfile = () => {
     return (
       <div className="mt-16 mx-auto h-44 w-10/12 flex flex-col text-gray-800 border border-gray-300 p-4 rounded-lg shadow-lg max-w-2xl">
         <div className="p-4 rounded-xl font-bold text-lg text-center bg-green-700 text-gray-100">
-          Profile Created, please refresh page
+          {submitSuccess}
         </div>
       </div>
     );

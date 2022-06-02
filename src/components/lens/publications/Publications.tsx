@@ -10,7 +10,7 @@ export const Publications = () => {
   const { data, loading, error } = useQuery(EXPLORE_PUBLICATIONS, {
     variables: {
       request: {
-        sortCriteria: "TOP_COMMENTED",
+        sortCriteria: "LATEST",
         limit: 20,
       },
     },
@@ -21,9 +21,7 @@ export const Publications = () => {
 
   return (
     <div className="p-2">
-      <h1 className="text-xl font-bold text-center">
-        Top 20 Commented Publications
-      </h1>
+      <h1 className="text-xl font-bold text-center">20 Latest Publications</h1>
       {data && (
         <>
           {data.explorePublications.items.map((item: any, index: number) => (
