@@ -22,6 +22,8 @@ export const PostPage = () => {
   if (!profileData) return null;
   const currentUser = profileData.profiles.items[0];
 
+  // console.log("currentUser", currentUser);
+
   if (!currentUser)
     return (
       <div>
