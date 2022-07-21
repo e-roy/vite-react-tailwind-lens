@@ -18,13 +18,11 @@ export const CreatePost = ({ currentUser }: CreatePostProps) => {
   const [content, setContent] = useState("");
   const [isPosting, setIsPosting] = useState(false);
   const { signTypedDataAsync } = useSignTypedData();
-  const { writeAsync } = useContractWrite(
-    {
-      addressOrName: LENS_HUB_PROXY_ADDRESS,
-      contractInterface: LENS_ABI,
-    },
-    "postWithSig"
-  );
+  const { writeAsync } = useContractWrite({
+    addressOrName: LENS_HUB_PROXY_ADDRESS,
+    contractInterface: LENS_ABI,
+    functionName: "postWithSig",
+  });
 
   const [createPostTypedData, {}] = useMutation(CREATE_POST_TYPED_DATA, {
     onCompleted({ createPostTypedData }: any) {

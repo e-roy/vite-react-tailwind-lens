@@ -10,10 +10,10 @@ import { CreateProfile } from "@/components/lens/profile";
 import { ENV_PROD, IS_PRODUCTION } from "@/constants";
 
 export const PostPage = () => {
-  const { data: accountData } = useAccount();
+  const { address } = useAccount();
   const { data: profileData } = useQuery(GET_PROFILES, {
     variables: {
-      request: { ownedBy: [accountData?.address] },
+      request: { ownedBy: [address] },
     },
   });
 

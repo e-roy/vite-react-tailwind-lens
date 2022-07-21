@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.5.10",
-    "@rainbow-me/rainbowkit": "^0.3.4",
+    "@rainbow-me/rainbowkit": "^0.4.4",
     "graphql": "^16.5.0",
     "jwt-decode": "^3.1.2",
     "lodash.merge": "^4.6.2",
@@ -26,7 +26,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.3.0",
     "uuid": "^8.3.2",
-    "wagmi": "^0.4.12"
+    "wagmi": "^0.5.11"
   },
   "devDependencies": {
     "@headlessui/react": "^1.6.4",
@@ -43,6 +43,6 @@
     "postcss": "^8.4.14",
     "tailwindcss": "^3.0.24",
     "typescript": "^4.7.4",
-    "vite": "^2.9.12"
+    "vite": "^3.0.2"
   }
 }

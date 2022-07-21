@@ -16,15 +16,13 @@ interface FollowButtonProps {
 
 export const FollowButton = ({ profileId, refetch }: FollowButtonProps) => {
   const [isUpdating, setIsUpdating] = useState(false);
-  const { data: accountData } = useAccount();
+  const { address } = useAccount();
   const { signTypedDataAsync } = useSignTypedData();
-  const { writeAsync } = useContractWrite(
-    {
-      addressOrName: LENS_HUB_PROXY_ADDRESS,
-      contractInterface: LENS_ABI,
-    },
-    "followWithSig"
-  );
+  const { writeAsync } = useContractWrite({
+    addressOrName: LENS_HUB_PROXY_ADDRESS,
+    contractInterface: LENS_ABI,
+    functionName: "followWithSig",
+  });
 
   const [createFollowTypedData, {}] = useMutation(CREATE_FOLLOW_TYPED_DATA, {
     onCompleted({ createFollowTypedData }: any) {
@@ -40,7 +38,7 @@ export const FollowButton = ({ profileId, refetch }: FollowButtonProps) => {
       }).then((res) => {
         const { v, r, s } = splitSignature(res);
         const postARGS = {
-          follower: accountData?.address,
+          follower: address,
           profileIds,
           datas,
           sig: {
