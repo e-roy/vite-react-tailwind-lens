@@ -1,0 +1,6 @@
+schema: "https://api.lens.dev/graphql"
+generates:
+  src/generated/graphqlEden.ts:
+    plugins:
+      - "typescript"
+      - "fragment-matcher"

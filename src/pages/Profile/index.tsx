@@ -1,6 +1,8 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 
+import { Profile } from "@/generated/graphqlEden";
+
 import { useQuery } from "@apollo/client";
 import { GET_PROFILES } from "@/queries/profile/get-profiles";
 
@@ -23,7 +25,7 @@ export const ProfilePage = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error!</div>;
 
-  const profile = profileData.profiles.items[0];
+  const profile: Profile = profileData.profiles.items[0];
 
   if (!profile) return <div>No profile found for this handle</div>;
   return (

@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 
-import { useSignTypedData, useContractWrite, useAccount } from "wagmi";
+import {
+  useSignTypedData,
+  useContractWrite,
+  useAccount,
+  usePrepareContractWrite,
+} from "wagmi";
 import { omit, splitSignature } from "@/lib/apollo/helpers";
 
 import { useMutation } from "@apollo/client";
@@ -8,6 +13,7 @@ import { CREATE_FOLLOW_TYPED_DATA } from "@/queries/profile/follow";
 
 import LENS_ABI from "@/abis/Lens-Hub.json";
 import { LENS_HUB_PROXY_ADDRESS } from "@/constants";
+import { CreateFollowBroadcastItemResult } from "@/generated/graphqlEden";
 
 interface FollowButtonProps {
   profileId: string;
@@ -18,18 +24,26 @@ export const FollowButton = ({ profileId, refetch }: FollowButtonProps) => {
   const [isUpdating, setIsUpdating] = useState(false);
   const { address } = useAccount();
   const { signTypedDataAsync } = useSignTypedData();
-  const { writeAsync } = useContractWrite({
-    addressOrName: LENS_HUB_PROXY_ADDRESS,
-    contractInterface: LENS_ABI,
+  const { config } = usePrepareContractWrite({
+    address: LENS_HUB_PROXY_ADDRESS,
+    abi: LENS_ABI,
     functionName: "followWithSig",
   });
+  const { data, isLoading, isSuccess, writeAsync, write } =
+    useContractWrite(config);
 
   const [createFollowTypedData, {}] = useMutation(CREATE_FOLLOW_TYPED_DATA, {
-    onCompleted({ createFollowTypedData }: any) {
+    onCompleted({
+      createFollowTypedData,
+    }: {
+      createFollowTypedData: CreateFollowBroadcastItemResult;
+    }) {
       if (!createFollowTypedData) console.log("createFollow is null");
 
       const { typedData } = createFollowTypedData;
       const { profileIds, datas } = typedData?.value;
+
+      console.log("typedData", typedData);
 
       signTypedDataAsync({
         domain: omit(typedData?.domain, "__typename"),
@@ -37,29 +51,34 @@ export const FollowButton = ({ profileId, refetch }: FollowButtonProps) => {
         value: omit(typedData?.value, "__typename"),
       }).then((res) => {
         const { v, r, s } = splitSignature(res);
+        const sig = { v, r, s, deadline: typedData?.value.deadline };
         const postARGS = {
-          follower: address,
+          follower: address as string,
           profileIds,
           datas,
-          sig: {
-            v,
-            r,
-            s,
-            deadline: typedData.value.deadline,
-          },
+          sig,
+          // sig: {
+          //   v,
+          //   r,
+          //   s,
+          //   deadline: typedData.value.deadline,
+          // },
         };
+        write && write({ args: postARGS });
 
-        writeAsync({ args: postARGS })
-          .then((res) => {
-            res.wait(1).then(() => {
-              refetch();
-              setIsUpdating(false);
-            });
-          })
-          .catch((error) => {
-            console.log(error);
-            setIsUpdating(false);
-          });
+        // writeAsync &&
+        //   writeAsync({ args: postARGS })
+        //     .then((res) => {
+        //       console.log("res", res);
+        //       res.wait(1).then(() => {
+        //         refetch();
+        //         setIsUpdating(false);
+        //       });
+        //     })
+        //     .catch((error) => {
+        //       console.log(error);
+        //       setIsUpdating(false);
+        //     });
       });
     },
     onError(error) {

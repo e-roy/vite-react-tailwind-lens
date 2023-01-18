@@ -1,8 +1,9 @@
 import React from "react";
 import { UserIcon } from "@heroicons/react/outline";
+import { Profile } from "@/generated/graphqlEden";
 
 type AvatarProps = {
-  profile?: any;
+  profile?: Profile;
   size?: string;
 };
 

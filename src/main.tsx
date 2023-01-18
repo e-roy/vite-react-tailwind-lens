@@ -5,8 +5,9 @@ import "./index.css";
 import App from "./App";
 
 // Imports
-import { chain, createClient, WagmiConfig, configureChains } from "wagmi";
-import { alchemyProvider } from "wagmi/providers/alchemy";
+import { createClient, WagmiConfig, configureChains } from "wagmi";
+import { polygon, polygonMumbai } from "wagmi/chains";
+// import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 
 import "@rainbow-me/rainbowkit/styles.css";
@@ -23,15 +24,19 @@ const infuraId = import.meta.env.VITE_PROD_INFURA_ID as string;
 
 const networks = [];
 if (ENV_PROD && IS_PRODUCTION) {
-  networks.push(chain.polygon);
+  networks.push(polygon);
 }
 
 if (ENV_DEV || !IS_PRODUCTION) {
-  networks.push(chain.polygonMumbai);
+  networks.push(polygonMumbai);
 }
 
-const { chains, provider } = configureChains(networks, [
-  alchemyProvider({ alchemyId }),
+// const { chains, provider } = configureChains(networks, [
+//   alchemyProvider({ alchemyId }),
+//   publicProvider(),
+// ]);
+
+const { chains, provider, webSocketProvider } = configureChains(networks, [
   publicProvider(),
 ]);
 
@@ -44,6 +49,7 @@ const wagmiClient = createClient({
   autoConnect: true,
   connectors,
   provider,
+  webSocketProvider,
 });
 
 const container = document.getElementById("root");

@@ -2,6 +2,8 @@
 
 ### With Vite + ReactJs + TailwindCss3 + WAGMI
 
+### RECENTLY UPDATED LIBRARIES - SOME ON CHAIN INTERACTIONS MY NOT WORK PROPERLY
+
 This is an template example of a basic build for a front-end application on top of [Lens Protocol](https://docs.lens.xyz/docs).
 
 This template hosted with [fleek.co](https://fleek.co/) at [https://jolly-snow-9071.on.fleek.co/](https://jolly-snow-9071.on.fleek.co/)
