@@ -19,9 +19,9 @@ export const PublicationItem: React.FC<PublicationItemProps> = React.memo(
     return (
       <div className="flex shadow rounded-lg mx-auto border w-full">
         <div className="flex space-x-4 items-start px-4 py-6 w-full">
-          <div className="cursor-pointer" onClick={handleProfileClick}>
+          <button type="button" className="" onClick={handleProfileClick}>
             <Avatar profile={item.by} size="w-12 h-12" />
-          </div>
+          </button>
 
           <div className="w-full space-y-3">
             <div className="flex items-center justify-between">

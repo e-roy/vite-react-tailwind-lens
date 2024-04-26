@@ -5,31 +5,44 @@ import { setAuthenticationToken } from "@/lib/apollo/auth/state";
 import { Button } from "@/components/elements";
 import { useUser } from "./UserContext";
 
-export const LensLogin = () => {
+export const LensLogin: React.FC = () => {
   const { address } = useAccount();
   const { currentUser } = useUser();
   const { signMessageAsync } = useSignMessage();
 
-  const id = currentUser?.id || null;
-
   const handleLogin = async () => {
-    if (!address && !id) return;
-    const challenge = await generateChallenge(address as string, id as string);
-    if (!challenge) return;
-    const signature = await signMessageAsync({
-      message: challenge.data.challenge.text,
-    });
-    const accessTokens = await authenticate(
-      challenge.data.challenge.id as string,
-      signature as string
-    );
-    await setAuthenticationToken({ token: accessTokens.data.authenticate });
+    if (!address || !currentUser?.id) return;
+
+    try {
+      const challenge = await generateChallenge(address, currentUser.id);
+      if (
+        !challenge?.data?.challenge?.text ||
+        !challenge?.data?.challenge?.id
+      ) {
+        console.error("Invalid challenge data");
+        return;
+      }
+
+      const signature = await signMessageAsync({
+        message: challenge.data.challenge.text,
+      });
+
+      const accessTokens = await authenticate(
+        challenge.data.challenge.id,
+        signature
+      );
+
+      if (accessTokens?.data?.authenticate) {
+        await setAuthenticationToken({ token: accessTokens.data.authenticate });
+      } else {
+        console.error("Authentication failed");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+    }
   };
 
-  if (!address && !id) return;
-  return (
-    <Button className="" onClick={() => handleLogin()}>
-      Login with Lens
-    </Button>
-  );
+  if (!address || !currentUser?.id) return null;
+
+  return <Button onClick={handleLogin}>Login with Lens</Button>;
 };

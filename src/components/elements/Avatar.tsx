@@ -7,36 +7,52 @@ type AvatarProps = {
   size?: string;
 };
 
-export const Avatar = ({ profile, size = "h-24 w-24" }: AvatarProps) => {
-  if (!profile) return null;
+export const Avatar = React.memo(
+  ({ profile, size = "h-24 w-24" }: AvatarProps) => {
+    if (!profile) return null;
 
-  // console.log("profile ======>", profile);
+    const metadata = profile.metadata;
 
-  if (!profile.metadata)
-    return <UserIcon className={`${size} md rounded-full relative`} />;
+    if (!metadata) {
+      return <UserIcon className={`${size} md rounded-full relative`} />;
+    }
 
-  if (profile.metadata?.picture?.__typename === "ImageSet")
-    return (
-      <img
-        src={checkIpfs(profile?.metadata?.picture?.optimized?.uri)}
-        alt={`@${profile.handle}`}
-        className={`${size} md rounded-full relative`}
-      />
-    );
+    const picture = metadata.picture;
 
-  if (profile.metadata?.picture?.__typename === "NftImage")
-    return (
-      <img
-        src={profile?.metadata?.picture?.image.raw.uri}
-        alt={`@${profile.handle}`}
-        className={`${size} md rounded-full relative`}
-      />
-    );
-};
+    if (picture?.__typename === "ImageSet") {
+      const optimizedUri = picture.optimized?.uri;
+      if (optimizedUri) {
+        return (
+          <img
+            src={checkIpfs(optimizedUri)}
+            alt={`@${profile.handle}`}
+            className={`${size} md rounded-full relative`}
+          />
+        );
+      }
+    }
+
+    if (picture?.__typename === "NftImage") {
+      const rawUri = picture.image.raw.uri;
+      if (rawUri) {
+        return (
+          <img
+            src={rawUri}
+            alt={`@${profile.handle}`}
+            className={`${size} md rounded-full relative`}
+          />
+        );
+      }
+    }
+
+    return null;
+  }
+);
 
 const checkIpfs = (url: string) => {
   if (url.startsWith("ipfs://")) {
     const ipfs = url.replace("ipfs://", "");
     return `https://ipfs.infura.io/ipfs/${ipfs}`;
-  } else return url;
+  }
+  return url;
 };
