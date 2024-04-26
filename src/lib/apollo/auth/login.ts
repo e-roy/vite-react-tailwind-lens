@@ -7,39 +7,52 @@ const apolloClient = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-const GET_CHALLENGE = `
-  query($request: ChallengeRequest!) {
-    challenge(request: $request) { text }
+export const GET_CHALLENGE = gql`
+  query ($request: ChallengeRequest!) {
+    challenge(request: $request) {
+      id
+      text
+    }
   }
 `;
 
-export const generateChallenge = (address: string) => {
-  // console.log(address);
+export const generateChallenge = (address: string, id: string) => {
   return apolloClient.query({
-    query: gql(GET_CHALLENGE),
+    query: GET_CHALLENGE,
     variables: {
       request: {
-        address,
+        signedBy: address,
+        for: id,
       },
     },
   });
 };
 
-const AUTHENTICATION = `
-  mutation($request: SignedAuthChallenge!) { 
+// const AUTHENTICATION = `
+//   mutation($request: SignedAuthChallenge!) {
+//     authenticate(request: $request) {
+//       accessToken
+//       refreshToken
+//     }
+//  }
+// `;
+
+export const AUTHENTICATION = gql`
+  mutation ($request: SignedAuthChallenge!) {
     authenticate(request: $request) {
       accessToken
+      identityToken
       refreshToken
     }
- }
+  }
 `;
 
-export const authenticate = (address: string, signature: string) => {
+export const authenticate = (challengeId: string, signature: string) => {
   return apolloClient.mutate({
-    mutation: gql(AUTHENTICATION),
+    mutation: AUTHENTICATION,
     variables: {
       request: {
-        address,
+        id: challengeId,
         signature,
       },
     },

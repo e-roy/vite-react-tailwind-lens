@@ -1,6 +1,6 @@
 // @ts-ignore
 import omitDeep from "omit-deep";
-import { utils } from "ethers";
+import { ethers } from "ethers";
 
 export const prettyJSON = (message: string, obj: string) => {
   console.log(message, JSON.stringify(obj, null, 2));
@@ -15,5 +15,5 @@ export const omit = (object: any, name: string) => {
 };
 
 export const splitSignature = (signature: any) => {
-  return utils.splitSignature(signature);
+  return ethers.Signature.from(signature);
 };

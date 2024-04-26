@@ -28,6 +28,3 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
-# lock files
-yarn.lock
-package-lock.json

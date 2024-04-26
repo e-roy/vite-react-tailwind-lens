@@ -5,8 +5,8 @@ import { VideoMetadataFragment } from "./metadata/VideoMetadataFragment";
 import { ImageMetadataFragment } from "./metadata/ImageMetadataFragment";
 import { TextOnlyMetadata } from "./metadata/TextOnlyMetadata";
 
-export const PostFragment = gql`
-  fragment PostFragment on Post {
+export const QuoteFragment = gql`
+  fragment QuoteFragment on Quote {
     id
 
     by {

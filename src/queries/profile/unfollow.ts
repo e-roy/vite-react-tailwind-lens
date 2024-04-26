@@ -13,7 +13,7 @@ export const CREATE_UNFOLLOW_TYPED_DATA = gql`
           verifyingContract
         }
         types {
-          BurnWithSig {
+          Unfollow {
             name
             type
           }
@@ -21,7 +21,8 @@ export const CREATE_UNFOLLOW_TYPED_DATA = gql`
         value {
           nonce
           deadline
-          tokenId
+          unfollowerProfileId
+          idsOfProfilesToUnfollow
         }
       }
     }

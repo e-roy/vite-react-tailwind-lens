@@ -1,30 +1,30 @@
 import { gql } from "@apollo/client/core";
 
 export const CREATE_POST_TYPED_DATA = gql`
-  mutation ($request: CreatePublicPostRequest!) {
-    createPostTypedData(request: $request) {
+  mutation ($request: OnchainPostRequest!) {
+    createOnchainPostTypedData(request: $request) {
       id
       expiresAt
       typedData {
-        types {
-          PostWithSig {
-            name
-            type
-          }
-        }
         domain {
           name
           chainId
           version
           verifyingContract
         }
+        types {
+          Post {
+            name
+            type
+          }
+        }
         value {
           nonce
           deadline
           profileId
           contentURI
-          collectModule
-          collectModuleInitData
+          actionModules
+          actionModulesInitDatas
           referenceModule
           referenceModuleInitData
         }

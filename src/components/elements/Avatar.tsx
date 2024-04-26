@@ -1,6 +1,6 @@
 import React from "react";
 import { UserIcon } from "@heroicons/react/outline";
-import { Profile } from "@/generated/graphqlEden";
+import { Profile } from "@/generated/graphqlGenerated";
 
 type AvatarProps = {
   profile?: Profile;
@@ -10,25 +10,28 @@ type AvatarProps = {
 export const Avatar = ({ profile, size = "h-24 w-24" }: AvatarProps) => {
   if (!profile) return null;
 
-  if (profile.picture?.__typename === "NftImage") {
-    return (
-      <img
-        src={profile.picture.uri}
-        alt={`@${profile.handle}`}
-        className={`${size} md rounded-full relative`}
-      />
-    );
-  } else if (profile.picture?.__typename === "MediaSet") {
-    return (
-      <img
-        src={checkIpfs(profile?.picture.original.url)}
-        alt={`@${profile.handle}`}
-        className={`${size} md rounded-full relative`}
-      />
-    );
-  } else {
+  // console.log("profile ======>", profile);
+
+  if (!profile.metadata)
     return <UserIcon className={`${size} md rounded-full relative`} />;
-  }
+
+  if (profile.metadata?.picture?.__typename === "ImageSet")
+    return (
+      <img
+        src={checkIpfs(profile?.metadata?.picture?.optimized?.uri)}
+        alt={`@${profile.handle}`}
+        className={`${size} md rounded-full relative`}
+      />
+    );
+
+  if (profile.metadata?.picture?.__typename === "NftImage")
+    return (
+      <img
+        src={profile?.metadata?.picture?.image.raw.uri}
+        alt={`@${profile.handle}`}
+        className={`${size} md rounded-full relative`}
+      />
+    );
 };
 
 const checkIpfs = (url: string) => {

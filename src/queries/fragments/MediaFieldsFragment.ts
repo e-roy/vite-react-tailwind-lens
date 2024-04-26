@@ -1,11 +1,10 @@
 import { gql } from "@apollo/client";
 
 export const MediaFieldsFragment = gql`
-  fragment MediaFieldsFragment on Media {
-    url
+  fragment MediaFieldsFragment on Image {
+    mimeType
     width
     height
-    size
-    mimeType
+    uri
   }
 `;

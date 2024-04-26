@@ -1,14 +1,18 @@
 import React, { useState } from "react";
-import { useMutation } from "@apollo/client";
+import { useAccount } from "wagmi";
 
+import { useMutation } from "@apollo/client";
 import { CREATE_PROFILE } from "@/queries/profile/create-profile";
 import { Button } from "@/components/elements";
 
 export const CreateProfile = () => {
+  const { address } = useAccount();
+
   const [submitError, setSubmitError] = useState("");
   const [submitSuccess, setSubmitSuccess] = useState("");
-  const [createProfile, { data, loading, error }] = useMutation(
+  const [createProfile, { loading, error }] = useMutation(
     CREATE_PROFILE,
+
     {
       onCompleted: () => {
         setSubmitError("");
@@ -43,6 +47,7 @@ export const CreateProfile = () => {
     await createProfile({
       variables: {
         request: {
+          to: address,
           handle: new Date().getTime().toString(), // this is a hack to get a unique handle, insert text instead to test availability
         },
       },
@@ -62,7 +67,7 @@ export const CreateProfile = () => {
     <div className="mt-16 mx-auto h-44 w-10/12 flex flex-col text-gray-800 border border-gray-300 p-4 rounded-lg shadow-lg max-w-2xl">
       <div className="text-center font-bold p-4">Create a profile to post</div>
       <p className="italic text-center p-2">
-        profiles can only be created on Mumbai testnet
+        profiles can only be created on Amoy testnet
       </p>
       <Button className="" onClick={() => handleCreateProfile()}>
         Create A New Profile

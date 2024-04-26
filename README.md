@@ -1,8 +1,8 @@
 # Lens Protocol Front End Starter - Template
 
-### With Vite + ReactJs + TailwindCss3 + WAGMI
+### With Vite + ReactJs + GraphQL + TailwindCss3 + WAGMI
 
-### RECENTLY UPDATED LIBRARIES - SOME ON CHAIN INTERACTIONS MY NOT WORK PROPERLY
+### Len Protocol v2
 
 This is an template example of a basic build for a front-end application on top of [Lens Protocol](https://docs.lens.xyz/docs).
 
@@ -12,13 +12,13 @@ This template hosted with [fleek.co](https://fleek.co/) at [https://jolly-snow-9
 
 2. [explorePublications](https://docs.lens.xyz/docs/explore-publications) - returns a list of publications based on your request query
 
-3. [createProfile](https://docs.lens.xyz/docs/create-profile) - Create a profile (only available on Mumbai testnet)
+3. [createProfile](https://docs.lens.xyz/docs/create-testnet-profile) - Create a profile (only available on Amoy testnet)
 
-4. [createPost](https://docs.lens.xyz/docs/create-post-typed-data) - Create a post (text content only, yours to extend)
+4. [createPost](https://docs.lens.xyz/docs/create-a-post#b-create-a-post-using-typeddata-and-broadcasting-onchain-via-the-api) - Create a post (text content only, yours to extend)
 
-5. [follow](https://docs.lens.xyz/docs/functions#follow) - Follow a user
+5. [follow](https://docs.lens.xyz/docs/create-follow-typed-data) - Follow a user
 
-6. [burn](https://docs.lens.xyz/docs/functions#burn) - Unfollows a user
+6. [unfolow](https://docs.lens.xyz/docs/create-unfollow-typed-data) - Unfollows a user
 
 You can view all of the APIs [here](https://docs.lens.xyz/docs/introduction) and contract methods [here](https://docs.lens.xyz/docs/functions)
 
@@ -40,7 +40,7 @@ This project is built with the following open source libraries, frameworks and l
 
 ## Configure
 
-Create a .env file, by copying the .env-example file and include your alchemy and infura keys
+Create a .env file, by copying the .env-example file and include your [infura keys](https://www.infura.io/)
 
 Default set up for working with the Lens Protocol on Mumbai Testnet for dev and prod environments.
 To switch prod environment to Polygon Mainnet, go into the `src/constants.ts` file and change

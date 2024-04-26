@@ -22,13 +22,15 @@ type decodedType = {
 };
 let decoded: decodedType;
 
-// const APIURL = "https://api-mumbai.lens.dev/";
 const httpLink = new HttpLink({ uri: LENS_API_URL });
 
 const authLink = new ApolloLink((operation, forward) => {
   const token = getAuthenticationToken() as string;
   const refreshToken = getRefreshToken() as string;
   if (token) decoded = jwt_decode(token as string);
+
+  console.log("Expired Token ======>  ", decoded.exp < Date.now() / 1000);
+  if (decoded.exp < Date.now() / 1000) console.log("EXPIRED TOKEN!!!!");
 
   // Use the setContext method to set the HTTP headers.
   operation.setContext({
@@ -53,11 +55,6 @@ const authLink = new ApolloLink((operation, forward) => {
   // Call the next link in the middleware chain.
   return forward(operation);
 });
-
-// export const apolloClient = new ApolloClient({
-//   uri: APIURL,
-//   cache: new InMemoryCache(),
-// });
 
 export const apolloClient = () => {
   const apolloClient = new ApolloClient({

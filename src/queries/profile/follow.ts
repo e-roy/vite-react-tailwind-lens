@@ -13,7 +13,7 @@ export const CREATE_FOLLOW_TYPED_DATA = gql`
           verifyingContract
         }
         types {
-          FollowWithSig {
+          Follow {
             name
             type
           }
@@ -21,7 +21,9 @@ export const CREATE_FOLLOW_TYPED_DATA = gql`
         value {
           nonce
           deadline
-          profileIds
+          followerProfileId
+          idsOfProfilesToFollow
+          followTokenIds
           datas
         }
       }

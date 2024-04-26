@@ -1,8 +1,7 @@
 import { gql } from "@apollo/client";
 
 import { PostFragment } from "./fragments/PostFragment";
-import { CommentFragment } from "./fragments/CommentFragment";
-import { MirrorFragment } from "./fragments/MirrorFragment";
+import { QuoteFragment } from "./fragments/QuoteFragment";
 
 export const EXPLORE_PUBLICATIONS = gql`
   query ($request: ExplorePublicationRequest!) {
@@ -12,20 +11,16 @@ export const EXPLORE_PUBLICATIONS = gql`
         ... on Post {
           ...PostFragment
         }
-        ... on Comment {
-          ...CommentFragment
-        }
-        ... on Mirror {
-          ...MirrorFragment
+        ... on Quote {
+          ...QuoteFragment
         }
       }
       pageInfo {
         next
-        totalCount
+        prev
       }
     }
   }
   ${PostFragment}
-  ${CommentFragment}
-  ${MirrorFragment}
+  ${QuoteFragment}
 `;

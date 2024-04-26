@@ -5,65 +5,69 @@ import "./index.css";
 import App from "./App";
 
 // Imports
-import { createClient, WagmiConfig, configureChains } from "wagmi";
+import { WagmiProvider, http } from "wagmi";
 import { polygon, polygonMumbai } from "wagmi/chains";
-// import { alchemyProvider } from "wagmi/providers/alchemy";
-import { publicProvider } from "wagmi/providers/public";
 
+import { getDefaultConfig, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
-
-import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 
 import { ApolloProvider } from "@apollo/client";
 import { apolloClient } from "@/lib/apollo";
 
-import { ENV_PROD, ENV_DEV, IS_PRODUCTION } from "@/constants";
+// import { ENV_PROD, ENV_DEV, IS_PRODUCTION } from "@/constants";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-const alchemyId = import.meta.env.VITE_PROD_ALCHEMY_ID as string;
-const infuraId = import.meta.env.VITE_PROD_INFURA_ID as string;
+import { type Chain } from "viem";
 
-const networks = [];
-if (ENV_PROD && IS_PRODUCTION) {
-  networks.push(polygon);
-}
+export const amoy_testnet = {
+  id: 80002,
+  name: "Amoy Testnet",
+  nativeCurrency: { name: "Amoy", symbol: "MATIC", decimals: 18 },
+  rpcUrls: {
+    default: { http: [" https://rpc-amoy.polygon.technology/"] },
+  },
+  blockExplorers: {
+    default: { name: "Oklink", url: "https://www.oklink.com/amoy" },
+  },
+  testnet: true,
+} as const satisfies Chain;
 
-if (ENV_DEV || !IS_PRODUCTION) {
-  networks.push(polygonMumbai);
-}
+// const networks = [];
+// if (ENV_PROD && IS_PRODUCTION) {
+//   networks.push(polygon);
+// }
 
-// const { chains, provider } = configureChains(networks, [
-//   alchemyProvider({ alchemyId }),
-//   publicProvider(),
-// ]);
+// if (ENV_DEV || !IS_PRODUCTION) {
+//   networks.push(polygonMumbai);
+// }
 
-const { chains, provider, webSocketProvider } = configureChains(networks, [
-  publicProvider(),
-]);
-
-const { connectors } = getDefaultWallets({
+export const config = getDefaultConfig({
   appName: "Lens Vite - Starter App",
-  chains,
+  projectId: "YOUR_PROJECT_ID",
+  chains: [polygon, polygonMumbai, amoy_testnet],
+  transports: {
+    [polygon.id]: http(),
+    [polygonMumbai.id]: http(),
+    [amoy_testnet.id]: http(),
+  },
 });
 
-const wagmiClient = createClient({
-  autoConnect: true,
-  connectors,
-  provider,
-  webSocketProvider,
-});
+const queryClient = new QueryClient();
 
 const container = document.getElementById("root");
 const root = createRoot(container!); // createRoot(container!) if you use TypeScript
 root.render(
   <React.StrictMode>
-    <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider coolMode chains={chains}>
-        <ApolloProvider client={apolloClient()}>
-          <HashRouter>
-            <App />
-          </HashRouter>
-        </ApolloProvider>
-      </RainbowKitProvider>
-    </WagmiConfig>
+    <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>
+        <RainbowKitProvider coolMode>
+          <ApolloProvider client={apolloClient()}>
+            <HashRouter>
+              <App />
+            </HashRouter>
+          </ApolloProvider>
+        </RainbowKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
   </React.StrictMode>
 );

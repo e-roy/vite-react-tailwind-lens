@@ -4,25 +4,38 @@ import { useAccount } from "wagmi";
 import { useQuery } from "@apollo/client";
 import { GET_PROFILES } from "@/queries/profile/get-profiles";
 
-import { CreatePost } from "@/components/lens/post";
-import { CreateProfile } from "@/components/lens/profile";
+import { CreatePost } from "./components/CreatePost";
+import { CreateProfile } from "./components/CreateProfile";
 
 import { ENV_PROD, IS_PRODUCTION } from "@/constants";
+import { Profile } from "@/generated/graphqlGenerated";
+
+interface ProfilesData {
+  profiles: {
+    items: Profile[];
+  };
+}
 
 export const PostPage = () => {
   const { address } = useAccount();
-  const { data: profileData } = useQuery(GET_PROFILES, {
+  const {
+    data: profileData,
+    loading,
+    error,
+  } = useQuery<ProfilesData>(GET_PROFILES, {
     variables: {
-      request: { ownedBy: [address] },
+      request: { where: { ownedBy: [address] } },
     },
   });
 
-  // console.log("profileData", profileData);
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error!</div>;
 
-  if (!profileData) return null;
-  const currentUser = profileData.profiles.items[0];
+  const { profiles } = profileData!;
 
-  // console.log("currentUser", currentUser);
+  // console.log("profiles", profiles);
+
+  const currentUser = profiles.items[0];
 
   if (!currentUser)
     return (
@@ -37,6 +50,7 @@ export const PostPage = () => {
         You need a profile to post.
       </div>
     );
+
   return (
     <div>
       <CreatePost currentUser={currentUser} />

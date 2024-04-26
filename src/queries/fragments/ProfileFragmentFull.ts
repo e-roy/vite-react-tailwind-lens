@@ -1,75 +1,80 @@
 import { gql } from "@apollo/client";
 
-import { MediaFieldsFragment } from "./MediaFieldsFragment";
+import { ImageSetFragment } from "./ImageSetFragment";
 
 export const ProfileFragmentFull = gql`
   fragment ProfileFragmentFull on Profile {
     id
-    handle
-    name
-    bio
-    ownedBy
-    picture {
-      ... on MediaSet {
-        original {
-          ...MediaFieldsFragment
+
+    handle {
+      id
+      fullHandle
+      localName
+      namespace
+    }
+
+    ownedBy {
+      address
+      chainId
+    }
+
+    metadata {
+      appId
+      displayName
+      bio
+      rawURI
+      picture {
+        ... on ImageSet {
+          ...ImageSetFragment
         }
-      }
-      ... on NftImage {
-        tokenId
-        uri
-        verified
-      }
-    }
-    coverPicture {
-      ... on NftImage {
-        tokenId
-        uri
-        verified
-      }
-      ... on MediaSet {
-        original {
-          ...MediaFieldsFragment
-        }
-      }
-      __typename
-    }
-    attributes {
-      displayType
-      traitType
-      key
-      value
-    }
-    stats {
-      totalFollowers
-      totalFollowing
-      totalPosts
-      totalComments
-      totalMirrors
-      totalPublications
-      totalCollects
-    }
-    followModule {
-      ... on FeeFollowModuleSettings {
-        type
-        amount {
-          asset {
-            symbol
-            name
-            decimals
+        ... on NftImage {
+          collection {
             address
+            chainId
           }
-          value
+          image {
+            ...ImageSetFragment
+          }
+          tokenId
+          verified
         }
-        recipient
       }
-      ... on ProfileFollowModuleSettings {
-        type
+    }
+
+    stats {
+      id
+      followers
+      following
+      comments
+      posts
+      mirrors
+      publications
+      quotes
+    }
+
+    operations {
+      id
+      isBlockedByMe {
+        value
+        isFinalisedOnchain
       }
-      ... on RevertFollowModuleSettings {
-        type
+      hasBlockedMe {
+        value
+        isFinalisedOnchain
       }
+      isFollowedByMe {
+        value
+        isFinalisedOnchain
+      }
+      isFollowingMe {
+        value
+        isFinalisedOnchain
+      }
+      canBlock
+      canUnblock
+      canFollow
+      canUnfollow
     }
   }
-  ${MediaFieldsFragment}
+  ${ImageSetFragment}
 `;
